@@ -2,7 +2,9 @@ package com.example.myexpandablelistview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,37 @@ public class MainActivity extends AppCompatActivity {
         //setting list adapter
         expandableListView.setAdapter(listAdapter);
 
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Toast.makeText(MainActivity.this
+                        ,listDataHeader.get(groupPosition)
+                                +" : "
+                                +listDataChild.get(
+                                listDataHeader.get(groupPosition))
+                                .get(childPosition)
+                        , Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(MainActivity.this
+                        , listDataHeader.get(groupPosition)+" Expanded"
+                        , Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listDataHeader.get(groupPosition) + " Collapsed",
+                        Toast.LENGTH_SHORT).show();            }
+        });
+
     }
 
     /*
@@ -41,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         listDataChild = new HashMap<String, List<String>>();
 
         //adding child data
-        listDataHeader.add("Top 250)");
+        listDataHeader.add("Top 250");
         listDataHeader.add("Now Showing");
         listDataHeader.add("Coming Soon...");
 
@@ -73,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
-
 
     }
 }
