@@ -2,6 +2,7 @@ package com.example.myexpandablelistview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get the listview
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-
+        putIndicatorToRight();
         //preparing list data
         prepareListData();
 
@@ -64,6 +65,27 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();            }
         });
 
+    }
+
+    private void putIndicatorToRight() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        //this code for adjusting the group indicator into right side of the view
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            //For sdk version bellow 18
+            expandableListView.setIndicatorBounds(width - GetDipsFromPixel(50), width - GetDipsFromPixel(10));
+        } else {
+            //For sdk 18 and above
+            expandableListView.setIndicatorBoundsRelative(width - GetDipsFromPixel(50), width - GetDipsFromPixel(10));
+        }
+    }
+
+    public int GetDipsFromPixel(float pixels) {
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
     }
 
     /*
