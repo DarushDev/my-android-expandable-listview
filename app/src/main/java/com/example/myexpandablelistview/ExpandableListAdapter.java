@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Darush on 8/28/2016.
- */
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
@@ -41,7 +40,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String childText = (String) getChild(groupPosition,childPosition);
 
         if(convertView == null){
@@ -50,6 +49,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
 
+        Button btnClickMe = (Button) convertView.findViewById(R.id.btnClickMe);
+        btnClickMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(_context, "Clicked:"+groupPosition+":"+childPosition, Toast.LENGTH_SHORT).show();
+            }
+        });
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
         return convertView;
