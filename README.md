@@ -1,4 +1,4 @@
 # my-android-expandable-listview
 Demonstration of Android ExpandableListView.
 
-Image to be added soon...
+![Image](./app/src/main/assets/screenshot1.gif)
